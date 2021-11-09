@@ -1,0 +1,93 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node
+    *matTreeNodeDef="let node"
+    matTreeNodeToggle
+    matTreeNodePadding
+  >
+  <mat-label>{{node.item}}</mat-label>
+  <div>
+    <img
+      src="../../assets/close.png"
+      alt=""
+      srcset=""
+      (click)="deleteNode(node)"
+
+    />
+    <img
+      src="../../assets/arrow-down.png"
+      alt=""
+      srcset=""
+      (click)="changeOrder(node,1)"
+    />
+    <img
+    src="../../assets/arrow-up.png"
+    alt=""
+    srcset=""
+    (click)="changeOrder(node,0)"
+
+  />
+  </div>
+  <div *ngIf="checkIfLastLeafNode(node)">
+    <mat-icon (click)="createNewFolder(node)">create_new_folder</mat-icon>
+  </div>
+
+  </mat-tree-node>
+
+  <mat-tree-node
+    *matTreeNodeDef="let node; when: hasNoContent"
+    matTreeNodePadding
+  >
+    <mat-label>{{node.item}}</mat-label>
+    <div appearance="fill">
+      <mat-label>Name: </mat-label>
+      <input matInput #itemValue placeholder="Ex. Lettuce" />
+    </div>
+    <button mat-button (click)="saveNode(node, itemValue.value)">Save</button>
+  </mat-tree-node>
+
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <mat-label>{{node.item}}</mat-label>
+
+    <div  matTreeNodeToggle>
+        <img
+          src="../../assets/close.png"
+          alt=""
+          srcset=""
+          (click)="deleteNode(node)"
+
+        />
+        <img
+          src="../../assets/arrow-down.png"
+          alt=""
+          srcset=""
+          (click)="changeOrder(node,1)"
+        />
+        <img
+        src="../../assets/arrow-up.png"
+        alt=""
+        srcset=""
+        (click)="changeOrder(node,0)"
+
+      />
+      <img
+        *ngIf="!treeControl.isExpanded(node)"
+        src="../../assets/floder-close.png"
+        alt=""
+        srcset=""
+      />
+      <img
+        *ngIf="treeControl.isExpanded(node)"
+        src="../../assets/folder.png"
+        alt=""
+        srcset=""
+      />
+    </div>
+    <img
+    src="../../assets/save.png"
+    alt=""
+    srcset=""
+    (click)="addNewItem(node)"
+  />
+
+  </mat-tree-node>
+</mat-tree>
